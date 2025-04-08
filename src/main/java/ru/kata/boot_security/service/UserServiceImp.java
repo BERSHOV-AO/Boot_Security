@@ -1,40 +1,76 @@
 package ru.kata.boot_security.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.kata.boot_security.dao.UserRepository;
+import ru.kata.boot_security.model.Role;
 import ru.kata.boot_security.model.User;
+
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleServiceImp roleService;
+
+    @Autowired
+    public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleServiceImp roleService) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
+    }
+
+    @Transactional
     @Override
     public void add(User user) {
+        if (user.getRoles().isEmpty()) {
+            Role defaultRole = roleService.findByName("ROLE_USER");
+            user.getRoles().add(defaultRole);
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
 
     }
 
+    @Transactional
     @Override
     public void update(int id, User user) {
-
+        User userUpdateTo = userRepository.findById(id).orElse(null);
+        if (userUpdateTo != null) {
+            userUpdateTo.setFirstName(user.getFirstName());
+            userUpdateTo.setLastName(user.getLastName());
+            userUpdateTo.setEmail(user.getEmail());
+            userUpdateTo.setPassword(passwordEncoder.encode(user.getPassword()));
+            userUpdateTo.setRoles(user.getRoles());
+            userRepository.save(userUpdateTo);
+        }
     }
 
+    @Transactional
     @Override
     public void delete(int id) {
-
+        userRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<User> findAll() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
     public User findById(int id) {
-        return null;
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return Optional.empty();
+        return userRepository.findByEmail(email);
     }
 }
