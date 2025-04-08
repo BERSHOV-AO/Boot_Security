@@ -1,11 +1,11 @@
 package ru.kata.boot_security.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kata.boot_security.dao.RoleRepository;
+import ru.kata.boot_security.dao.UserRepository;
 import ru.kata.boot_security.model.Role;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -13,12 +13,11 @@ public class RoleServiceImp implements RoleService {
 
     private final RoleRepository roleRepository;
 
-    @Autowired
-    public RoleServiceImp(RoleRepository roleRepository) {
+    public RoleServiceImp(RoleRepository roleRepository, UserRepository userRepository) {
         this.roleRepository = roleRepository;
     }
 
-    @Transactional
+    @javax.transaction.Transactional
     @Override
     public List<Role> findAll() {
         return roleRepository.findAll();

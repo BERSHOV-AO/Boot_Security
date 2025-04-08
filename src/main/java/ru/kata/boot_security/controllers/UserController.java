@@ -11,8 +11,8 @@ import ru.kata.boot_security.service.UserService;
 import org.springframework.security.core.Authentication;
 
 @Controller
-public class UserController {
 
+public class UserController {
     private final UserService userService;
 
     @Autowired
@@ -21,10 +21,10 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String userPage(Model mode) {
+    public String userPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        mode.addAttribute("userDetails", personDetails);
+        model.addAttribute("userDetails", personDetails);
         return "user";
     }
 }

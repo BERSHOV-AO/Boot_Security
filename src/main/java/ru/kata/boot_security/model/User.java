@@ -33,6 +33,7 @@ public class User {
     @Column(name = "email")
     private String email;
 
+
     @NotEmpty(message = "Пароль не может быть пустым")
     @Column(name = "password")
     private String password;
@@ -41,7 +42,6 @@ public class User {
     @Fetch(FetchMode.JOIN)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "User_id"),
             inverseJoinColumns = @JoinColumn(name = "Role_id"))
-
     private Set<Role> roles = new HashSet<>();
 
     public User() {
@@ -55,12 +55,16 @@ public class User {
         this.roles = roles;
     }
 
-    public int getId() {
-        return id;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getFirstName() {
@@ -93,14 +97,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     @Override

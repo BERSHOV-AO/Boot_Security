@@ -35,20 +35,19 @@ public class UserServiceImp implements UserService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-
     }
 
     @Transactional
     @Override
     public void update(int id, User user) {
-        User userUpdateTo = userRepository.findById(id).orElse(null);
-        if (userUpdateTo != null) {
-            userUpdateTo.setFirstName(user.getFirstName());
-            userUpdateTo.setLastName(user.getLastName());
-            userUpdateTo.setEmail(user.getEmail());
-            userUpdateTo.setPassword(passwordEncoder.encode(user.getPassword()));
-            userUpdateTo.setRoles(user.getRoles());
-            userRepository.save(userUpdateTo);
+        User userToUpdate = userRepository.findById(id).orElse(null);
+        if (userToUpdate != null) {
+            userToUpdate.setFirstName(user.getFirstName());
+            userToUpdate.setLastName(user.getLastName());
+            userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
+            userToUpdate.setRoles(user.getRoles());
+            userRepository.save(userToUpdate);
         }
     }
 
