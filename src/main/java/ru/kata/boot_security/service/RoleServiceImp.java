@@ -17,7 +17,6 @@ public class RoleServiceImp implements RoleService {
         this.roleRepository = roleRepository;
     }
 
-    @javax.transaction.Transactional
     @Override
     public List<Role> findAll() {
         return roleRepository.findAll();
@@ -31,6 +30,6 @@ public class RoleServiceImp implements RoleService {
 
     @Override
     public Role findByName(String name) {
-        return roleRepository.findAll().stream().filter(r -> r.getName().equals(name)).findFirst().orElse(null);
+        return (Role) roleRepository.findByName(name);
     }
 }
