@@ -57,7 +57,6 @@ public class UserServiceImp implements UserService {
         userRepository.deleteById(id);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<User> findAll() {
         return userRepository.findAll();

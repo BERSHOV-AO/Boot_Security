@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.kata.boot_security.dao.UserRepository;
-import ru.kata.boot_security.model.PersonDetails;
 import ru.kata.boot_security.model.User;
 
 
@@ -27,6 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found!");
         }
-        return new PersonDetails(user.get());
+        return user.get();
     }
 }
