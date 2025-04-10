@@ -5,7 +5,7 @@ import ru.kata.boot_security.dao.RoleRepository;
 import ru.kata.boot_security.dao.UserRepository;
 import ru.kata.boot_security.model.Role;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
